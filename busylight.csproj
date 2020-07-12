@@ -71,4 +71,8 @@
     </ItemGroup>
   </Target>
 
+   <PropertyGroup>
+      <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+   </PropertyGroup>
+
 </Project>
