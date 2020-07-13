@@ -19,18 +19,18 @@ namespace busylight.Controllers
    {
       private readonly ILogger<TrafficLightController> logger;
       private readonly ITrafficLightRepository trafficLightRepository;
-      private readonly IClewareControlLamp clewareControlLamp;
+      private readonly IClewareLampControl clewareLampControl;
       private readonly IHubContext<TrafficLightHub> trafficLightHub;
 
       public TrafficLightController(
          ILogger<TrafficLightController> logger,
          ITrafficLightRepository trafficLightRepository,
-         IClewareControlLamp clewareControlLamp,
+         IClewareLampControl clewareLampControl,
          IHubContext<TrafficLightHub> trafficLightHub)
       {
          this.logger = logger;
          this.trafficLightRepository = trafficLightRepository;
-         this.clewareControlLamp = clewareControlLamp;
+         this.clewareLampControl = clewareLampControl;
          this.trafficLightHub = trafficLightHub;
       }
 
@@ -72,9 +72,11 @@ namespace busylight.Controllers
          if (lamp != null)
          {
             lamp.SetLampState(isOn);
+            var updateClients = trafficLightHub.Clients.All.SendAsync("trafficLightUpdate", id);
 
-            clewareControlLamp.SwitchLight(id, lampId, isOn);
-            await trafficLightHub.Clients.All.SendAsync("trafficLightUpdate", id);
+            clewareLampControl.SwitchLight(id, lampId, isOn);
+
+            await updateClients;
          }
       }
    }

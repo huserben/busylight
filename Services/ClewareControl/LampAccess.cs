@@ -5,6 +5,11 @@ namespace busylight.Services.ClewareControl
 {
    public class LampAccess
    {
+      // Options are:
+      // 32 Bit: USBaccess.dll
+      // 64 Bit: USBaccessx64.dll
+      private const string UsbAccess = @"Services\ClewareControl\USBaccessx64.dll";
+
       public enum SWITCH_IDs : int
       {
          SWITCH_0 = 0x10, SWITCH_1 = 0x11, SWITCH_2 = 0x12, SWITCH_3 = 0x13,
@@ -43,21 +48,21 @@ namespace busylight.Services.ClewareControl
       };
 
 
-      [DllImport(@"Services\ClewareControl\USBaccessx64.dll")]
+      [DllImport(UsbAccess)]
       public static extern IntPtr FCWInitObject();
-      [DllImport(@"Services\ClewareControl\USBaccessx64.dll")]
+      [DllImport(UsbAccess)]
       public static extern void FCWUnInitObject(IntPtr cwHdl);
-      [DllImport(@"Services\ClewareControl\USBaccessx64.dll")]
+      [DllImport(UsbAccess)]
       public static extern int FCWOpenCleware(IntPtr cwHdl);
-      [DllImport(@"Services\ClewareControl\USBaccessx64.dll")]
+      [DllImport(UsbAccess)]
       public static extern int FCWCloseCleware(IntPtr cwHdl);
-      [DllImport(@"Services\ClewareControl\USBaccessx64.dll")]
+      [DllImport(UsbAccess)]
       public static extern int FCWGetUSBType(IntPtr cwHdl, int devNum);
-      [DllImport(@"Services\ClewareControl\USBaccessx64.dll")]
+      [DllImport(UsbAccess)]
       public static extern float FCWDGetTemperature(IntPtr cwHdl, int devNum);
-      [DllImport(@"Services\ClewareControl\USBaccessx64.dll")]
+      [DllImport(UsbAccess)]
       public static extern int FCWSetSwitch(IntPtr cwHdl, int devNum, int Switch, int On);	//	On: 0=off, 1=on
-      [DllImport(@"Services\ClewareControl\USBaccessx64.dll")]
+      [DllImport(UsbAccess)]
       public static extern int FCWGetSwitch(IntPtr cwHdl, int devNum, int Switch);
    }
 }

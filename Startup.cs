@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Runtime.InteropServices;
 
 namespace busylight
 {
@@ -24,7 +26,19 @@ namespace busylight
       public void ConfigureServices(IServiceCollection services)
       {
          services.AddSingleton<ITrafficLightRepository, TrafficLightRepository>();
-         services.AddSingleton<IClewareControlLamp, ClewareControlBuildLamp>();
+
+         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+         {
+            services.AddSingleton<IClewareLampControl, ClewareLampControlWindows>();
+         }
+         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+         {
+            services.AddSingleton<IClewareLampControl, ClewareLampControlLinux>();
+         }
+         else
+         {
+            throw new InvalidOperationException("Cannot run on MacOs");
+         }
 
          services.AddControllersWithViews()
             .AddNewtonsoftJson(options =>

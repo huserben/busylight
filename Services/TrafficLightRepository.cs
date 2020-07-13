@@ -11,12 +11,12 @@ namespace busylight.Services
       private readonly ILogger<TrafficLightRepository> logger;
       private readonly IEnumerable<TrafficLight> trafficeLights;
 
-      public TrafficLightRepository(ILogger<TrafficLightRepository> logger, IClewareControlLamp clewareControlLamp)
+      public TrafficLightRepository(ILogger<TrafficLightRepository> logger, IClewareLampControl clewareLampControl)
       {
          this.logger = logger;
          logger.LogDebug("Created Traffic Light Repo");
 
-         trafficeLights = clewareControlLamp.DiscoverConnectedDevices();
+         trafficeLights = clewareLampControl.DiscoverConnectedDevices();
       }
 
       public IEnumerable<TrafficLight> GetTrafficLights()

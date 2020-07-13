@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace busylight.Services.ClewareControl
 {
-   public class ClewareControlBuildLamp : IClewareControlLamp
+   public class ClewareLampControlWindows : IClewareLampControl
    {
       private readonly int deviceCount;
       private readonly IntPtr clewareObject;
-      private readonly ILogger<ClewareControlBuildLamp> logger;
+      private readonly ILogger<ClewareLampControlWindows> logger;
       private Dictionary<int, LampAccess.SWITCH_IDs> idToSwitchIDMap = new Dictionary<int, LampAccess.SWITCH_IDs>();
 
-      public ClewareControlBuildLamp(ILogger<ClewareControlBuildLamp> logger)
+      public ClewareLampControlWindows(ILogger<ClewareLampControlWindows> logger)
       {
          // Please note that OpenCleware should be called only once in the initialisation of your programm, 
          // not every time a cleware function is called

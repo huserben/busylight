@@ -4,7 +4,7 @@ using busylight.Model;
 
 namespace busylight.Services.ClewareControl
 {
-   public interface IClewareControlLamp : IDisposable
+   public interface IClewareLampControl : IDisposable
    {
       /// <summary>
       /// Prints all the available devices found.
