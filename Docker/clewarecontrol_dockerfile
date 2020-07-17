@@ -1,0 +1,12 @@
+FROM ubuntu:latest
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Bern
+
+RUN apt-get update && apt-get install -y \
+    git \
+    libhidapi-dev \
+    build-essential \
+    gettext
+
+RUN git clone https://github.com/flok99/clewarecontrol.git && cd clewarecontrol && make install
