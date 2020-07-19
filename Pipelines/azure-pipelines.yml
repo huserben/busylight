@@ -7,10 +7,9 @@ trigger:
     include:
     - master
   paths:
-    include:
-    - '*'
     exclude:
-    - '*.md'
+    - 'README.md'
+    - '/docs'
 
 resources:
 - repo: self
