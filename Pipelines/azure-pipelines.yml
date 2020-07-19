@@ -8,9 +8,9 @@ trigger:
     - master
   paths:
     include:
-    - *
+    - '*'
     exclude:
-    - *.md
+    - '*.md'
 
 resources:
 - repo: self
