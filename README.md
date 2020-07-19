@@ -4,6 +4,9 @@ The concrete use case for me was to have an indication outside my office at home
 
 The system is based on a backend that is running on a machine that has the traffic light connected. This can either be Windows or Unix (e.g. a Raspberry Pi).
 
+[![Build Status](https://dev.azure.com/huserben/busylight/_apis/build/status/huserben.busylight?branchName=master)](https://dev.azure.com/huserben/busylight/_build/latest?definitionId=48&branchName=master)
+[![Dockerhub](https://img.shields.io/docker/pulls/huserben/busylight)](https://hub.docker.com/repository/docker/huserben/busylight)
+
 ## Hardware
 - Cleware USB Traffic Light (https://www.cleware-shop.de/epages/63698188.sf/de_DE/?ObjectID=46834005)
 - Raspberry Pi (any model with USB should do, I suggest a Model 3 or newer) for integrated Wifi
