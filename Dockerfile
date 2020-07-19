@@ -1,6 +1,5 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim-arm32v7 AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -16,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN git clone https://github.com/flok99/clewarecontrol.git && cd clewarecontrol && make install
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster-arm32v7 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 
 # Prevent 'Warning: apt-key output should not be parsed (stdout is not a terminal)'

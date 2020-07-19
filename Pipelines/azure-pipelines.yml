@@ -1,0 +1,51 @@
+# Docker
+# Build a Docker image 
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+
+    - task: DockerInstaller@0
+      displayName: Install Docker CLI
+      inputs:
+        dockerVersion: '19.03.9'
+
+    - task: CmdLine@2
+      displayName: Install Dependencies
+      inputs:
+        script: |
+          #sudo apt-get -y install qemu-user-static
+
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+    - task: CmdLine@2
+      displayName: Login to DockerHub
+      env: 
+        DockerHubPassword: $(dockerpw)
+      inputs:
+        script: |
+          docker login --username huserben --password $DockerHubPassword
+
+    - task: CmdLine@2
+      displayName: Build Multi-Platform Images
+      inputs:
+        script: |
+          docker buildx create --use --name busylight-builder
+
+          docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t huserben/busylight --push .
