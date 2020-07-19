@@ -23,7 +23,7 @@ You can either clone the repo and build everything from scratch with Visual Stud
 If you just want to use it, you can use the docker image hosted at dockerhub: *[huserben/busylight](https://hub.docker.com/repository/docker/huserben/busylight)*
 
 Run the following command to fetch the image and run a container that is exposing the web page to port 8080:  
-*docker run -p 8080:80 -d --restart unless-stoped --privileged --name busylight huserben/busylight*
+*docker run -p 8080:80 -d --restart unless-stopped --privileged --name busylight huserben/busylight*
 
 **Note**: the privileged flag is needed as otherwise the cleware device will not be recognized
 
