@@ -24,7 +24,7 @@ namespace busylight.Services.ClewareControl
 
          logger.LogInformation("Discovering connected devices...");
 
-         var discoverDeviceCommand = "sudo clewarecontrol -l";
+         var discoverDeviceCommand = "clewarecontrol -l";
          var devices = discoverDeviceCommand.Bash();
 
          foreach (var line in devices.Split(Environment.NewLine))
@@ -58,7 +58,7 @@ namespace busylight.Services.ClewareControl
 
          logger.LogInformation($"Setting lamp state of lamp {lampId} (device {deviceId}) to {lampState}");
 
-         var command = $"sudo clewarecontrol -d {deviceId} -as {lampId} {lampState}";
+         var command = $"clewarecontrol -d {deviceId} -as {lampId} {lampState}";
 
          logger.LogDebug(command);
 
