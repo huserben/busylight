@@ -25,21 +25,33 @@ stages:
   displayName: Build and Test
   jobs:
   - job: BuildTest
+    displayName: Build Solution and run Unit Tests
     pool:
-      vmImage: 'ubuntu-latest'
-    
-    steps:
-    - task: DotNetCoreCLI@2
-      displayName: Build
-      inputs:
-        command: 'build'
-        projects: '**/*.cspro'
+      vmImage: 'windows-latest'
 
-    - task: DotNetCoreCLI@2
-      displayName: Run Unit Test
+    variables:
+      solution: '**/*.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
+
+    steps:
+    - task: NuGetToolInstaller@1
+
+    - task: NuGetCommand@2
       inputs:
-        command: 'test'
-        projects: '**/*.csproj'
+        restoreSolution: '$(solution)'
+
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:DeployOnBuild=false'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+
+    - task: VSTest@2
+      inputs:
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
 
 - ${{if eq(variables['Build.SourceBranchName'], 'refs/heads/master')}}:
   - stage: Deploy
