@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "busylight", "busylight.csproj", "{190AB25D-884B-49C3-8B23-9D5248F8D411}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "busylight", "busylight\busylight.csproj", "{190AB25D-884B-49C3-8B23-9D5248F8D411}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
