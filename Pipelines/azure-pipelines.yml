@@ -54,4 +54,4 @@ stages:
         script: |
           docker buildx create --use --name busylight-builder
 
-          docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t huserben/busylight --push .
+          docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t huserben/busylight --push busylight/
