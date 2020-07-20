@@ -41,7 +41,7 @@ stages:
       inputs:
         command: 'test'
 
-- ${{if eq(variables['Build.SourceBranchName'], 'refs/heads/master')}}:
+- ${{if eq(variables['Build.SourceBranch'], 'refs/heads/master')}}:
   - stage: Deploy
     displayName: Build Image and deploy to Dockerhub
     dependsOn: BuildTestStage
