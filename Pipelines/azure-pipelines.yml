@@ -27,31 +27,19 @@ stages:
   - job: BuildTest
     displayName: Build Solution and run Unit Tests
     pool:
-      vmImage: 'windows-latest'
-
-    variables:
-      solution: '**/*.sln'
-      buildPlatform: 'Any CPU'
-      buildConfiguration: 'Release'
+      vmImage: 'ubuntu-latest'
 
     steps:
-    - task: NuGetToolInstaller@1
 
-    - task: NuGetCommand@2
+    - task: DotNetCoreCLI@2
+      displayName: "Build solution"
       inputs:
-        restoreSolution: '$(solution)'
+        command: 'build'
 
-    - task: VSBuild@1
+    - task: DotNetCoreCLI@2
+      displayName: Run Tests
       inputs:
-        solution: '$(solution)'
-        msbuildArgs: '/p:DeployOnBuild=false'
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
-
-    - task: VSTest@2
-      inputs:
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
+        command: 'test'
 
 - ${{if eq(variables['Build.SourceBranchName'], 'refs/heads/master')}}:
   - stage: Deploy
