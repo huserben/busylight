@@ -11,6 +11,9 @@ trigger:
     - 'README.md'
     - '/docs'
 
+pr:
+- master
+
 resources:
 - repo: self
 
@@ -18,40 +21,62 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
-- stage: Build
-  displayName: Build image
-  jobs:  
-  - job: Build
-    displayName: Build
+- stage: BuildTestStage
+  displayName: Build and Test
+  jobs:
+  - job: BuildTest
     pool:
       vmImage: 'ubuntu-latest'
+    
     steps:
-
-    - task: DockerInstaller@0
-      displayName: Install Docker CLI
+    - task: DotNetCoreCLI@2
+      displayName: Build
       inputs:
-        dockerVersion: '19.03.9'
+        command: 'build'
+        projects: '**/*.cspro'
 
-    - task: CmdLine@2
-      displayName: Install Dependencies
+    - task: DotNetCoreCLI@2
+      displayName: Run Unit Test
       inputs:
-        script: |
-          #sudo apt-get -y install qemu-user-static
+        command: 'test'
+        projects: '**/*.csproj'
 
-          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+- ${{if eq(variables['Build.SourceBranchName'], 'refs/heads/master')}}:
+  - stage: Deploy
+    displayName: Build Image and deploy to Dockerhub
+    dependsOn: BuildTestStage
+    jobs:  
+    - job: Deploy
+      displayName: Deploy
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
 
-    - task: CmdLine@2
-      displayName: Login to DockerHub
-      env: 
-        DockerHubPassword: $(dockerpw)
-      inputs:
-        script: |
-          docker login --username huserben --password $DockerHubPassword
+      - task: DockerInstaller@0
+        displayName: Install Docker CLI
+        inputs:
+          dockerVersion: '19.03.9'
 
-    - task: CmdLine@2
-      displayName: Build Multi-Platform Images
-      inputs:
-        script: |
-          docker buildx create --use --name busylight-builder
+      - task: CmdLine@2
+        displayName: Install Dependencies
+        inputs:
+          script: |
+            #sudo apt-get -y install qemu-user-static
 
-          docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t huserben/busylight --push busylight/
+            docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+      - task: CmdLine@2
+        displayName: Login to DockerHub
+        env: 
+          DockerHubPassword: $(dockerpw)
+        inputs:
+          script: |
+            docker login --username huserben --password $DockerHubPassword
+
+      - task: CmdLine@2
+        displayName: Build Multi-Platform Images
+        inputs:
+          script: |
+            docker buildx create --use --name busylight-builder
+
+            docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t huserben/busylight --push busylight/
