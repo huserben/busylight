@@ -11,4 +11,4 @@ deviceConfiguration:
 
   imageRecognition:
     # Relative path to the image that shall be deteced from the directory this file is in.
-    image: ./microphone.png
+    image: microphone.png

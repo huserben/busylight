@@ -9,11 +9,13 @@ import time
 from python_imagesearch.imagesearch import imagesearch
 import requests
 import yaml
-import sys
+import sys, os
 
 url = ''
 
-with open("deviceUsageConfiguartion.yaml", 'r') as stream:
+pathname = os.path.dirname(sys.argv[0])        
+
+with open("{0}/deviceUsageConfiguartion.yaml".format(os.path.abspath(pathname)), 'r') as stream:
     print('Reading configuration from yaml file...')
 
     try:
@@ -82,7 +84,7 @@ while True:
 
 
     print("Checking if microphone is in use...")
-    pos = imagesearch(imagePath)
+    pos = imagesearch("{0}/{1}".format(os.path.abspath(pathname), imagePath))
     microphone_on = pos[0] != -1
     if microphone_on:
         print("Microphone is in use")
