@@ -1,0 +1,14 @@
+deviceConfiguration:
+  endpoint:
+    url: http://192.168.1.204:8080
+    trafficLightId: 903567
+  
+  # This might be needed to specify the interval between the checks, as in some cases it might take a bit to refresh the lamp
+  intervalBetweenChecks: 10
+
+  # After all checks have run, how long should be waited till the next cycle of checks starts
+  intervalBetweenCycles: 60
+
+  imageRecognition:
+    # Relative path to the image that shall be deteced from the directory this file is in.
+    image: ./microphone.png
